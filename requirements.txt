@@ -1,3 +1,4 @@
 pennylane
 matplotlib
 networkx
+numpy
