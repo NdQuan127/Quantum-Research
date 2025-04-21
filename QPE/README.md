@@ -17,18 +17,21 @@ However, because the complex exponential has period $2\pi$, technically the phas
 How can we represent $\theta$ on a quantum computer? The answer is the first part of the algorithm: **we present $\theta$ in binary.**
 
 When we write the number 0.15625, it is being expressed as a sum of multiples of powers of 10:
+
 $$0.15625 = 1 \times 10^{-1} + 5 \times 10^{-2} + 6 \times 10^{-3} + 2 \times 10^{-4} + 5 \times 10^{-5}$$
+
 But nothing is stopping us from using 2 instead of 10. In binary, the same number is $0.00101_2$:
+
 $$0.00101_2 = 0 \times 2^{-1} + 0 \times 2^{-2} + 1 \times 2^{-3} + 0 \times 2^{-4} + 1 \times 2^{-5}$$
+
 (You can confirm this by computing $1/8 + 1/32$ on a calculator). Similarly, $0.5_{10}$ is $0.1_2$ in binary, and $0.3125_{10}$ is $0.0101_2$.
 
 Ok, now back to quantum. A binary fraction is useful because we can encode it using qubits, e.g., $|110010\rangle$ for $\theta=0.110010$. The phase is retrieved by measuring the qubits. The **precision** of the estimate isdetermined by **the number of qubits**. For example, the binary expansion of $0.8$ is $0.11001100...$ which does not terminate. From now on, we’ll use n for the number of estimation qubits.
 
 ## Part 2: Quantum Fourier Transform
 
-> To refer details more about Quantum Fourier Transform, please see [[Quantum Fourier Transform]].
-
 The second part of the algorithm is to follow advice given to many physicists: "When in doubt, take the Fourier transform."; or in ourcase, "Whenin doubt, take the quantum Fourier transform (QFT)".
+
 $$\text{QFT}|k\rangle = \frac{1}{\sqrt{2^n}} \sum_{k=0} e^{2\pi i \theta k} |k\rangle.$$
 
 Note that this results in a uniform superposition, where each basis state has an additional phase. If we can prepare that state, then applying the *inverse QFT* would give $|\theta\rangle$ in the estimation register. This looks more promising, especially if we notice the appearance of the eigenvalue $e^{2\pi i \theta}$, although with an extra factor of $k$. We can obtian this factor by applying the unitary $k$ times to the state $|\psi\rangle$:
@@ -37,7 +40,7 @@ $$U^k|\psi\rangle = e^{2\pi i \theta k}|\psi\rangle.$$
 
 Therefore, we will use $\psi$ and $U$ to generate factos that are of interest to us in each of the basic states. It would then be enough to create an operator such that:
 
-$$ |\psi\rangle|k\rangle \rightarrow U^k|\psi\rangle|k\rangle.$$
+$$|\psi\rangle|k\rangle \rightarrow U^k|\psi\rangle|k\rangle.$$
 
 In this way, if we apply this operator to the uniform superposition we obtain:
 
@@ -56,6 +59,7 @@ We can extend this idea to any number of qubits. The following animation illustr
 ![](https://pennylane.ai/_images/controlledSequence.gif)
 
 With six qubits, an example would be
+
 $$|\psi\rangle|010111\rangle \rightarrow U^{16}U^4U^2U^1|\psi\rangle|010111\rangle = U^{23}|\psi\rangle|010111\rangle$$
 
 Note that $010111_2$ is $23_{10}$.
