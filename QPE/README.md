@@ -94,3 +94,7 @@ QPE is doing something incredible: it can calculate eigenvalues **without ever d
 $$|\Psi\rangle = \sum_i c_i |\psi_i\rangle ,$$
 
 QPE outputs the eigenphase $\theta_i$ with probability $|c_i|^2$.
+
+# References
+
+1. [Intro to Quantum Phase Estimation](https://pennylane.ai/qml/demos/tutorial_qpe#references)
